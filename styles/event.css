@@ -8,13 +8,14 @@
     background: url(../images/bg.jpg) center #1a1a1a;
     background-size: cover;
     color: #fff;
+    padding: 80px 30px;
     /* display: none; */
 }
 
 .event__title {
     font-size: 100px;
     font-weight: 800;
-    margin-bottom: 62px;
+    margin-bottom: 50px;
     line-height: 1.2;
 }
 
@@ -26,16 +27,14 @@
 
 .event__info-item {
     font-size: 30px;
-    line-height: 2;
-    display: flex;
-    gap: 8px;
-    align-items: end;
+    line-height: 1.4;
 }
 
 .event__info-number {
     font-size: 80px;
     font-weight: 800;
     line-height: 1.2;
+    margin-right: 8px;
 }
 
 .event__button {
@@ -56,4 +55,51 @@
     align-items: center;
     font-size: 18px;
     gap: 8px;
+}
+
+@media (max-width: 1024px) {
+    .event__title {
+        font-size: 70px;
+        margin-bottom: 40px;
+    }
+
+    .event__info-item {
+        font-size: 24px;
+    }
+
+    .event__info {
+        gap: 50px;
+        margin-bottom: 45px;
+    }
+
+    .event__info-number {
+        font-size: 50px;
+    }
+
+    .event__button_reserve {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 680px) {
+    .event {
+        padding: 80px 16px 60px;
+    }
+
+    .event__title {
+        font-size: 38px;
+        margin-bottom: 8px;
+    }
+
+    .event__info {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    .event__button_reserve {
+        margin-top: auto;
+    }
 }

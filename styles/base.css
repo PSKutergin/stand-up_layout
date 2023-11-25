@@ -66,3 +66,34 @@ fieldset {
     margin: 0;
     border: 0;
 }
+
+.ts-dropdown,
+.ts-control,
+.ts-control input {
+    font-size: 18px;
+    line-height: 1.4;
+    border-radius: 8px;
+    color: #1A1A1A;
+    border: none;
+    padding: 10px 16px 8px;
+}
+
+.dropdown-active .ts-control {
+    border-radius: 8px;
+}
+
+.ts-dropdown .active {
+    background-color: transparent;
+}
+
+.ts-wrapper.single .ts-control {
+    background-color: #fff;
+}
+
+.ts-wrapper.single .ts-control::after {
+    border-color: #1a1a1a transparent transparent transparent;
+}
+
+.ts-wrapper.single.dropdown-active .ts-control::after {
+    border-color: transparent transparent #1a1a1a transparent;
+}
