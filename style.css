@@ -3,4 +3,5 @@
 @import 'tom-select/dist/css/tom-select.default.css';
 @import "styles/base.css";
 @import "styles/event.css";
-@import "styles/booking.css"
+@import "styles/booking.css";
+@import "styles/notification.css"

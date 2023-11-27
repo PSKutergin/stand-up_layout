@@ -12,6 +12,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "inputmask": "^5.0.8",
+    "just-validate": "^4.3.0",
     "normalize.css": "^8.0.1",
     "tom-select": "^2.3.1"
   }

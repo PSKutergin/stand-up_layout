@@ -1,9 +1,21 @@
 import './style.css';
 import TomSelect from 'tom-select';
+import { Notification } from './scripts/notification';
+import Inputmask from 'inputmask';
+import JustValidate from 'just-validate';
 
 const bookingomediansList = document.querySelector('.booking__comedians-list');
+const bokkingForm = document.querySelector('.booking__form');
+const bookingInputFullname = document.querySelector('.booking__input_fullname')
+const bookingInputPhone = document.querySelector('.booking__input_phone');
+const bookingInputTicket = document.querySelector('.booking__input_ticket');
 
 const MAX_COMEDIANS = 6;
+
+const notification = Notification.getInstance();
+
+new Inputmask('+7(999)999-99-99').mask(bookingInputPhone);
+new Inputmask('99999999').mask(bookingInputTicket);
 
 const createComedianBlock = (comedians) => {
     const bookingComedian = document.createElement('li');
@@ -101,6 +113,89 @@ const init = async () => {
     const comedianBlock = createComedianBlock(comedians);
 
     bookingomediansList.append(comedianBlock);
+
+    const validate = new JustValidate(bokkingForm, {
+        errorFieldCssClass: 'booking__input_invalid',
+        successFieldCssClass: 'booking__input_valid',
+    });
+
+    validate
+        .addField(bookingInputFullname, [
+            {
+                rule: 'required',
+                errorMessage: 'Заполните Имя'
+            },
+        ])
+        .addField(bookingInputPhone, [
+            {
+                rule: 'required',
+                errorMessage: 'Заполните Телефон'
+            },
+            {
+                validator() {
+                    const phone = bookingInputPhone.inputmask.unmaskedvalue();
+
+                    return phone.length === 10 && !!Number(phone)
+
+                },
+                errorMessage: 'Некорректный телефон'
+            }
+        ])
+        .addField(bookingInputTicket, [
+            {
+                rule: 'required',
+                errorMessage: 'Заполните Номер билета'
+            },
+            {
+                validator() {
+                    const ticket = bookingInputTicket.inputmask.unmaskedvalue();
+
+                    return ticket.length === 8 && !!Number(ticket)
+                },
+                errorMessage: 'Неверный номер билета'
+            },
+        ]).onFail((fields) => {
+            let errorMessage = '';
+
+            for (const key in fields) {
+                if (!Object.hasOwnProperty.call(fields, key)) {
+                    continue;
+                };
+
+                const elem = fields[key];
+
+                if (!elem.isValid) {
+                    errorMessage += `${elem.errorMessage}, `;
+                }
+            };
+
+            notification.show(errorMessage.slice(0, -2), false);
+        });
+
+    bokkingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = { booking: [] };
+        const times = new Set();
+
+        new FormData(bokkingForm).forEach((value, field) => {
+            if (field === 'booking') {
+                const [comedian, time] = value.split(',');
+
+                if (comedian && time) {
+                    data.booking.push({ comedian, time });
+                    times.add(time);
+                };
+
+            } else {
+                data[field] = value;
+            };
+
+            if (times.size !== data.booking.length) {
+                notification.show('Нельзя быть в одно время на двух выступлениях');
+            };
+        });
+    });
 };
 
 init();
